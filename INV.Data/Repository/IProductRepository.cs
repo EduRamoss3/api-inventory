@@ -1,11 +1,10 @@
 ﻿
-
-using INV.Data.Entity;
+using INV.Domain.Entity;
 
 namespace INV.Data.Repository
 {
     public interface IProductRepository
     {
-        Task<bool> Add(Product product);
+        Task<int?> Add(Product product);
     }
 }

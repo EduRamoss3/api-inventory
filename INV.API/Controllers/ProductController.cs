@@ -1,11 +1,49 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using API_Inventario.Extensions;
+using FluentValidation;
+using INV.Application.DTO;
+using INV.Application.Services.Interfaces;
+using INV.Data.Repository;
+using INV.Domain.Entity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace INV.API.Controllers
+namespace INV_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : ControllerBase
+    public class ProductController : Controller
     {
+        private readonly IProductService _productService;
+        private IValidator<ProductDTO> _validator;
+        public ProductController(IProductService productService, IValidator<ProductDTO> validator)
+        {
+            _productService = productService;
+            _validator = validator;
+        }
+        [HttpPost]
+        public async Task<ActionResult<ProductDTO>> Create([FromBody]ProductDTO product)
+        {
+            var validate = await _validator.ValidateAsync(product);
+
+            if (validate.IsValid)
+            {
+                var result = await _productService.Add(product);
+                if (result != null)
+                {
+                    return Created($"api/product/{result.Value}", product);
+                }
+                return Problem("Problem with the server, refresh and try again later");
+            }
+            validate.AddToModelState(this.ModelState);
+
+            return Problem(
+                detail: string.Join(" | ", ModelState.Values
+               .SelectMany(v => v.Errors)
+               .Select(e => e.ErrorMessage)),
+                instance: HttpContext.Request.Path,
+                statusCode: 400,
+                title: "Error of validation",
+                type: "https://httpstatuses.com/400"
+            );
+        }
     }
 }

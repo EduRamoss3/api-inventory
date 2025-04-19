@@ -1,12 +1,12 @@
 ﻿
 using FluentValidation;
-using INV.Data.Entity;
+using INV.Application.DTO;
 
-namespace INV.Data.Validation
+namespace INV.Application.Validation
 {
-    public class ProductValidator : AbstractValidator<Product>
+    public class ProductDTOValidator : AbstractValidator<ProductDTO>
     {
-        public ProductValidator()
+        public ProductDTOValidator()
         {
             RuleFor(x => x.Name)
               .NotEmpty().WithMessage("Please specify a name")

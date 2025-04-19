@@ -25,18 +25,16 @@ namespace INV.Data.Seed
                 {
                     _context.Open();
                     string command = @"
-IF OBJECT_ID('products', 'U') IS NULL
-BEGIN
-    CREATE TABLE products (
-        Id INT IDENTITY(1,1) PRIMARY KEY,
-        Description VARCHAR(250) NOT NULL,
-        Name VARCHAR(250) NOT NULL,
-        Price DECIMAL(10,2) NOT NULL,
-        Quantity INT NOT NULL,
-        Available BIT
-    );
-END";
-
+                     IF OBJECT_ID('products', 'U') IS NULL
+                       BEGIN
+                       CREATE TABLE products (
+                           Id INT IDENTITY(1,1) PRIMARY KEY,
+                                  Description VARCHAR(250) NOT NULL,
+                                  Name VARCHAR(250) NOT NULL,
+                                  Price DECIMAL(10,2) NOT NULL,
+                                  Quantity INT NOT NULL,
+                                  Available BIT);
+                        END";
 
                     await _context.ExecuteAsync(command);
                 }
@@ -59,7 +57,7 @@ END";
                     _context.Open();
                     string command = @"IF DB_ID('inventory') IS NULL
                                      BEGIN
-                                      CREATE DATABASE inventory
+                                       CREATE DATABASE inventory
                                      END";
 
                     await _context.ExecuteAsync(command);

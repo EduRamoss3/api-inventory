@@ -1,8 +1,10 @@
 ﻿using FluentValidation;
-using INV.Data.Entity;
+using INV.Application.DTO;
+using INV.Application.Services;
+using INV.Application.Services.Interfaces;
+using INV.Application.Validation;
 using INV.Data.Repository;
 using INV.Data.Seed;
-using INV.Data.Validation;
 using Microsoft.Extensions.DependencyInjection;
 
 
@@ -14,7 +16,8 @@ namespace INV.Infra.DI
         {
             services.AddSingleton<ICreate, Create>();
             services.AddScoped<IProductRepository, ProductRepository>();
-            services.AddScoped<IValidator<Product>, ProductValidator>();
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IValidator<ProductDTO>, ProductDTOValidator>();
 
             return services;
         }

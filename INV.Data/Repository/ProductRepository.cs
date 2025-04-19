@@ -1,7 +1,7 @@
 ﻿
 
 using Dapper;
-using INV.Data.Entity;
+using INV.Domain.Entity;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Data;
@@ -13,39 +13,35 @@ namespace INV.Data.Repository
         private readonly IConfiguration _configuration = configuration;
         private IDbConnection _context;
 
-        public async Task<bool> Add(Product product)
+        public async Task<int?> Add(Product product)
         {
-           
-            using(_context = new SqlConnection(_configuration.GetConnectionString("Default")))
+            using (_context = new SqlConnection(_configuration.GetConnectionString("Default")))
             {
                 try
                 {
                     _context.Open();
-                    var query = "INSERT INTO Products(Name,Description,Price,Quantity,Available) " +
-                        $"VALUES (@Name" +
-                        $",@Description" +
-                        $",@Price," +
-                        $"'@Quantity'," +
-                        $"'@Available');";
-                    var dp = new DynamicParameters();
+                    var query = @"
+                INSERT INTO Products(Name, Description, Price, Quantity, Available) 
+                VALUES (@Name, @Description, @Price, @Quantity, @Available);
+                SELECT CAST(SCOPE_IDENTITY() AS INT);"; // <- isso retorna o ID recém-inserido
 
+                    var dp = new DynamicParameters();
                     dp.Add("@Name", product.Name);
                     dp.Add("@Description", product.Description);
                     dp.Add("@Price", product.Price);
                     dp.Add("@Quantity", product.Quantity);
                     dp.Add("@Available", product.Available);
 
-                    await _context.ExecuteAsync(query, dp);
-
-                    return true;
+                    var id = await _context.ExecuteScalarAsync<int?>(query, dp);
+                    return id; // pode ser nulo se falhar
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
-                    return false;
+                    return null;
                 }
-              
             }
         }
+
     }
 }

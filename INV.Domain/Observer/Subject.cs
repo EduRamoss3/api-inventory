@@ -1,8 +1,8 @@
 ﻿
 
-using INV.Data.Interfaces;
+using INV.Domain.Interfaces;
 
-namespace INV.Data.Observer
+namespace INV.Domain.Observer
 {
     internal class Subject : ISubject
     {

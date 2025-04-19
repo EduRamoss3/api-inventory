@@ -1,4 +1,4 @@
-﻿namespace INV.Data.Interfaces
+﻿namespace INV.Domain.Interfaces
 {
     public interface ISubject
     {
