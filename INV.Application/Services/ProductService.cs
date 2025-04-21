@@ -1,5 +1,6 @@
 ﻿
 using INV.Application.DTO;
+using INV.Application.Extensions;
 using INV.Application.Services.Interfaces;
 using INV.Data.Repository;
 
@@ -17,6 +18,12 @@ namespace INV.Application.Services
         {
             var result = await _repository.Add(productDTO);
             return result;
+        }
+
+        public async Task<IEnumerable<ProductDTO>> GetAll()
+        {
+            var products = await _repository.All();
+            return MapperProduct.EnumerableToDto(products);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace INV.Domain.Entity
         public int Quantity { get;  set; }
         public bool Available { get; set; } 
         public decimal Price { get;  set; }
-
+      
         public  void Attach(IObserver observer)
         {
            _observers.Add(observer);    

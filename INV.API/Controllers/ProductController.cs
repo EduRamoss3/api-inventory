@@ -4,6 +4,7 @@ using INV.Application.DTO;
 using INV.Application.Services.Interfaces;
 using INV.Data.Repository;
 using INV.Domain.Entity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace INV_API.Controllers
@@ -19,7 +20,15 @@ namespace INV_API.Controllers
             _productService = productService;
             _validator = validator;
         }
+        [HttpGet]
+        [Route("all")]
+        public async Task<ActionResult<IEnumerable<ProductDTO>>> All()
+        {
+            var products = await _productService.GetAll();  
+            return Ok(products);
+        }
         [HttpPost]
+        [Route("create")]
         public async Task<ActionResult<ProductDTO>> Create([FromBody]ProductDTO product)
         {
             var validate = await _validator.ValidateAsync(product);
@@ -45,5 +54,6 @@ namespace INV_API.Controllers
                 type: "https://httpstatuses.com/400"
             );
         }
+       
     }
 }

@@ -12,10 +12,11 @@ namespace INV.Data.Repository
     {
         private readonly IConfiguration _configuration = configuration;
         private IDbConnection _context;
+        private readonly string connection = configuration.GetConnectionString("Default");
 
         public async Task<int?> Add(Product product)
         {
-            using (_context = new SqlConnection(_configuration.GetConnectionString("Default")))
+            using (_context = new SqlConnection(connection))
             {
                 try
                 {
@@ -43,5 +44,24 @@ namespace INV.Data.Repository
             }
         }
 
+        public async  Task<IEnumerable<Product>> All()
+        {
+            using(_context = new SqlConnection(connection))
+            {
+                try
+                {
+                    _context.Open();
+                    var query = @"SELECT * FROM products";
+                    var result = await _context.QueryAsync<Product>(query);
+
+                    return result;
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message+ "|" + DateTimeOffset.UnixEpoch.ToString());
+                    return Enumerable.Empty<Product>();
+                }
+            }
+        }
     }
 }
