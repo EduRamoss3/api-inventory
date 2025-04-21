@@ -38,7 +38,8 @@ void Seed(WebApplication api)
     {
         var service = scope.ServiceProvider.GetService<ICreate>();
         service.CreateDb();
-        service.CreateTable();
+        service.CreateTableProducts();
+        service.CreateTableUsers();
 
     }
 }

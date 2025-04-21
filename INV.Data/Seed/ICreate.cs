@@ -8,7 +8,8 @@ namespace INV.Data.Seed
 {
     public interface ICreate
     {
-        Task CreateTable();
+        Task CreateTableProducts();
         Task CreateDb();
+        Task CreateTableUsers();
     }
 }

@@ -17,7 +17,7 @@ namespace INV.Data.Seed
             _configuration = configuration;
         }
         #region Create Table
-        public async Task CreateTable()
+        public async Task CreateTableProducts()
         {
             using(_context = new SqlConnection(_configuration.GetConnectionString("Default")))
             {
@@ -43,6 +43,37 @@ namespace INV.Data.Seed
                     Console.WriteLine(x.Message);
                 }
               
+            }
+        }
+        #endregion
+
+        #region Create Table
+        public async Task CreateTableUsers()
+        {
+            using (_context = new SqlConnection(_configuration.GetConnectionString("Default")))
+            {
+                try
+                {
+                    _context.Open();
+                    string command = @"
+                     IF OBJECT_ID('users', 'U') IS NULL
+                       BEGIN
+                       CREATE TABLE users (
+                                  Id UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+                                  Name NVARCHAR(250) NOT NULL,
+                                  IsActive BIT,
+                                  Email VARCHAR(130) NOT NULL,
+                                  Password NVARCHAR(255) NOT NULL,
+                                  Role VARCHAR(20) NOT NULL)
+                        END";
+
+                    await _context.ExecuteAsync(command);
+                }
+                catch (Exception x)
+                {
+                    Console.WriteLine(x.Message);
+                }
+
             }
         }
         #endregion
