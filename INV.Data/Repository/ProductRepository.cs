@@ -1,6 +1,6 @@
 ﻿
-
 using Dapper;
+using INV.Data.Repository.Interfaces;
 using INV.Domain.Entity;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
@@ -10,7 +10,6 @@ namespace INV.Data.Repository
 {
     public class ProductRepository(IConfiguration configuration) : IProductRepository
     {
-        private readonly IConfiguration _configuration = configuration;
         private IDbConnection _context;
         private readonly string connection = configuration.GetConnectionString("Default");
 

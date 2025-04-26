@@ -2,7 +2,7 @@
 using INV.Application.DTO;
 using INV.Application.Extensions;
 using INV.Application.Services.Interfaces;
-using INV.Data.Repository;
+using INV.Data.Repository.Interfaces;
 
 namespace INV.Application.Services
 {

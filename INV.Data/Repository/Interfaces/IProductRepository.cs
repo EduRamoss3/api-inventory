@@ -1,7 +1,6 @@
-﻿
-using INV.Domain.Entity;
+﻿using INV.Domain.Entity;
 
-namespace INV.Data.Repository
+namespace INV.Data.Repository.Interfaces
 {
     public interface IProductRepository
     {

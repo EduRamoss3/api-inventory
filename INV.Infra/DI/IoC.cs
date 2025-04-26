@@ -4,6 +4,7 @@ using INV.Application.Services;
 using INV.Application.Services.Interfaces;
 using INV.Application.Validation;
 using INV.Data.Repository;
+using INV.Data.Repository.Interfaces;
 using INV.Data.Seed;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -18,6 +19,10 @@ namespace INV.Infra.DI
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IValidator<ProductDTO>, ProductDTOValidator>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ITokenService, TokenService>();
+
 
             return services;
         }

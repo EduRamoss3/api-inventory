@@ -11,7 +11,7 @@ namespace INV_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : Controller
+    public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
         private IValidator<ProductDTO> _validator;
