@@ -14,11 +14,9 @@ namespace INV_API.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
-        private IValidator<ProductDTO> _validator;
-        public ProductController(IProductService productService, IValidator<ProductDTO> validator)
+        public ProductController(IProductService productService)
         {
             _productService = productService;
-            _validator = validator;
         }
         [HttpGet]
         [Route("all")]
@@ -29,7 +27,7 @@ namespace INV_API.Controllers
         }
         [HttpPost]
         [Route("create")]
-        public async Task<ActionResult<ProductDTO>> Create([FromBody]ProductDTO product)
+        public async Task<ActionResult<ProductDTO>> Create([FromServices] IValidator<ProductDTO> _validator, [FromBody]ProductDTO product)
         {
             var validate = await _validator.ValidateAsync(product);
 

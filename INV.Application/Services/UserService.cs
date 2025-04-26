@@ -1,8 +1,10 @@
 ﻿
 
 using INV.Application.DTO;
+using INV.Application.Results;
 using INV.Application.Services.Interfaces;
 using INV.Data.Repository.Interfaces;
+using INV.Data.Results;
 using INV.Domain.Entity;
 
 namespace INV.Application.Services
@@ -15,10 +17,17 @@ namespace INV.Application.Services
             _repository = repository;
         }
 
-        public async Task<bool> RegisterNormalUser(NormalUserDTO user)
+        public async Task<User?> Login(string email, string password)
         {
-           var result = await _repository.RegisterNormalUser(user);
-           return result;
+            return await _repository.Login(email, password);
+        }
+
+        public async Task<ResultServices> RegisterNormalUser(NormalUserDTO user)
+        {
+           
+           var resultRepo = await _repository.RegisterNormalUser(user);
+          
+           return resultRepo;
         }
     }
 }
