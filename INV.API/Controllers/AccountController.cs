@@ -8,7 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace INV_API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class AccountController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -19,6 +20,7 @@ namespace INV_API.Controllers
             _tokenService = tokenService;
         }
         [HttpPost]
+        [MapToApiVersion("1.0")]
         [Route("login")]
         public async Task<ActionResult<User>> Login(string email, string password)
         {

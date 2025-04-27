@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace INV_API.Controllers
 {
+    [ApiVersion("1.0")]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductController : ControllerBase
